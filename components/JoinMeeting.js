@@ -1,16 +1,23 @@
-'use client';
-import {useState} from 'react';
+// components/JoinMeeting.js
+import { useState } from 'react';
 
-export function JoinMeeting({onJoin}) {
-    const [joinId, setJoinId] = useState('');
+export function JoinMeeting({ onJoin }) {
+  const [joinId, setJoinId] = useState('');
 
-    const handleJoin =() =>{
-        onJoin(joinId);
-        setJoinId('');
-    };
+ 
+  const handleJoin = async () => {
+    if (joinId) {
+      try {
+        await onJoin(joinId);
+      } catch (error) {
+        console.error('Error joining meeting:', error);
+      }
+    }
+  };
 
-    return(
-        <div className="mb-4">
+
+  return (
+    <div className="mb-4">
       <input 
         type="text"
         value={joinId}
@@ -25,5 +32,5 @@ export function JoinMeeting({onJoin}) {
         Join Meeting
       </button>
     </div>
-    )
+  );
 }

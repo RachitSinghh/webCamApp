@@ -1,23 +1,29 @@
-export function CreateMeeting({peerId,onCreateMeeting}) {
-    const createMeeting =() =>{
-        if(peerId){
-            onCreateMeeting(peerId);
-        }else{
-            console.warn('Peer ID is not available yet');
+import {useState} from 'react';
+
+export function CreateMeeting({onCreateMeeting}) {
+    const [meetingId,setMeetingId] = useState('');
+
+    const handleCreateMeeting = async () => {
+        try {
+          const id = await onCreateMeeting();
+          setMeetingId(id);
+        } catch (error) {
+          console.error('Error creating meeting:', error);
         }
-    };
+      };
+
 
     return (
         <div className="mb-4">
             <button 
-                onClick={createMeeting}
+                onClick={handleCreateMeeting}
                 className="bg-blue-500 text-white px-4 py-2 rounded"
             >
                 Create Meeting
             </button>
             {
-                peerId && (
-                    <p className="mt-2">Share this meeting ID: {peerId}</p>
+                meetingId && (
+                    <p className="mt-2">Share this meeting ID: {meetingId}</p>
                 )
             }
         </div>
