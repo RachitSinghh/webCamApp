@@ -8,7 +8,7 @@ import { usePeer } from "../lib/usePeer";
 
 
 export default function Home() {
-  const {peerId,createMeeting,joinMeeting, localStream, remoteStream} = usePeer();
+  const {peerId,createMeeting,joinMeeting, localStream, remoteStreams} = usePeer();
   const [remotePeerId, setRemotePeerId] = useState('');
 
   const handleCreateMeeting = async () => {
@@ -19,6 +19,11 @@ export default function Home() {
       console.log('Error creating meeting: ', error);
     }
   };
+// const handleCreateMeeting = async () =>{
+//   return meetingId = await createMeeting();
+//   return meetingId;
+// }
+
   const handleJoinMeeting = async(joinId) =>{
     try{
       setRemotePeerId(joinId);
@@ -28,6 +33,12 @@ export default function Home() {
     }
   }
 
+  // const handleJoinMeeting = (joinId) =>{
+  //   setRemotePeerId(joinId);
+  //   joinMeeting(joinId);
+  // }
+
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">WebRTC Video Chat App</h1>
@@ -35,7 +46,7 @@ export default function Home() {
       <CreateMeeting onCreateMeeting={handleCreateMeeting} />
       <JoinMeeting onJoin={handleJoinMeeting} />
       
-      <VideoChat localStream={localStream} remoteStream={remoteStream} />
+      <VideoChat localStream={localStream} remoteStream={remoteStreams} />
       
       {peerId && (
         <p className="mt-4">Your Peer ID: {peerId}</p>
